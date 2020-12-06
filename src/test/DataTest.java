@@ -1,5 +1,3 @@
-import agh.cs.lab7.MoveDirection;
-import agh.cs.lab7.OptionsParser;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

@@ -1,5 +1,6 @@
-package agh.cs.lab7;
+package agh.cs.lab7.world;
 
+import agh.cs.lab7.*;
 import agh.cs.lab7.interfaces.IPositionChangeObserver;
 import agh.cs.lab7.interfaces.IWorldMap;
 
@@ -14,16 +15,11 @@ abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver {
         Animal animal = animals.get(oldPosition);
         animals.remove(oldPosition, animal);
         animals.put(newPosition, animal);
-        //animals.replace()
     }
 
     public void place(Animal animal){
-        if (canMoveTo(animal.getPosition())) {
-            this.animals.put(animal.getPosition(), animal);
-            this.boundary.add(animal.getPosition());
-        }
-        else
-            throw new IllegalArgumentException("Position "+animal.getPosition()+" is already occupied!");
+        this.animals.put(animal.getPosition(), animal);
+        this.boundary.add(animal.getPosition());
     }
 
     public boolean isOccupied(Vector2d position){
@@ -36,7 +32,7 @@ abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver {
         return animals.get(position);
     }
 
-    public abstract boolean canMoveTo(Vector2d position);
+    public abstract Vector2d countMovePosition(Vector2d position, Vector2d moveVector);
 
     public String toString(){
         MapVisualizer visualizer = new MapVisualizer(this);

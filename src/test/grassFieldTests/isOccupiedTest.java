@@ -3,6 +3,7 @@ package grassFieldTests;
 import agh.cs.lab7.*;
 import agh.cs.lab7.interfaces.IEngine;
 import agh.cs.lab7.interfaces.IWorldMap;
+import agh.cs.lab7.world.GrassField;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;

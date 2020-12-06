@@ -16,13 +16,13 @@ import java.util.List;
  */
 public interface IWorldMap {
     /**
-     * Indicate if any object can move to the given position.
+     * Count position where will animal be after move
      *
      * @param position
-     *            The position checked for the movement possibility.
-     * @return True if the object can move to that position.
+     *              Position of object, Vector representing move shift
+     * @return Position where object should be located after move.
      */
-    boolean canMoveTo(Vector2d position);
+    Vector2d countMovePosition(Vector2d position, Vector2d moveVector);
 
     /**
      * Place a animal on the map.

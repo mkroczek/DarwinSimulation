@@ -1,6 +1,7 @@
 import agh.cs.lab7.*;
 import agh.cs.lab7.interfaces.IEngine;
 import agh.cs.lab7.interfaces.IWorldMap;
+import agh.cs.lab7.world.RectangularMap;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;

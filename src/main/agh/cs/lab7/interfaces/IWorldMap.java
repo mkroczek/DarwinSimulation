@@ -1,10 +1,10 @@
 package agh.cs.lab7.interfaces;
 
-import agh.cs.lab7.Animal;
+import agh.cs.lab7.mapElements.Animal;
 import agh.cs.lab7.DirectionsParser;
-import agh.cs.lab7.MapBoundary;
 import agh.cs.lab7.Vector2d;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,11 +27,11 @@ public interface IWorldMap {
     /**
      * Place a animal on the map.
      *
-     * @param animal
-     *            The animal to place on the map.
+     * @param object
+     *            The object to place on the map.
      * @return True if the animal was placed. The animal cannot be placed if the map is already occupied.
      */
-    void place(Animal animal);
+    void place(IMapElement object);
 
     /**
      * Return true if given position on the map is occupied. Should not be
@@ -51,11 +51,13 @@ public interface IWorldMap {
      *            The position of the object.
      * @return Object or null if the position is not occupied.
      */
+    ArrayList<Animal> animalsAt(Vector2d position);
+
     Object objectAt(Vector2d position);
 
-    List<Animal> getListOfAnimals();
+    ArrayList<Animal> getLivingAnimals();
 
-    MapBoundary getBoundary();
+    void updateMap();
 
     DirectionsParser getParser();
 

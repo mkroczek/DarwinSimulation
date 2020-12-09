@@ -1,7 +1,7 @@
 //package agh.cs.lab7.world;
 //
-//import agh.cs.lab7.Animal;
-//import agh.cs.lab7.Grass;
+//import agh.cs.lab7.mapElements.Animal;
+//import agh.cs.lab7.mapElements.Grass;
 //import agh.cs.lab7.Vector2d;
 //
 //import java.util.*;

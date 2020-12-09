@@ -1,5 +1,7 @@
 package agh.cs.lab7;
 
+import java.util.Random;
+
 public enum MapDirection {
     NORTH,
     SOUTH,
@@ -92,5 +94,10 @@ public enum MapDirection {
                 return new Vector2d(-1,1);
         }
         return null;
+    }
+    public static MapDirection getRandom(){
+        Random generator = new Random();
+        MapDirection[] values = MapDirection.values();
+        return values[generator.nextInt(values.length)];
     }
 }

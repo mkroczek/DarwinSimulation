@@ -11,6 +11,19 @@ public interface IMapElement {
     Vector2d getPosition();
 
     /**
+     * Change object status into dead.
+     */
+    //void die();
+
+    /**
+     *
+     * @param observer
+     */
+    void addObserver(IMapElementObserver observer);
+
+    void removeObserver(IMapElementObserver observer);
+
+    /**
      * Return object representation as String.
      *
      * @return Object representation as String.

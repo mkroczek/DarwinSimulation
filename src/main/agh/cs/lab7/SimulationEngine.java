@@ -26,8 +26,8 @@ public class SimulationEngine implements IEngine {
     public void run() {
         ArrayList<Animal> animals = this.map.getLivingAnimals();
         int moves_counter = 0;
-        while (moves_counter < 10){
-            for (int which_animal = 0; which_animal < animals.size() && moves_counter < 10; which_animal++, moves_counter++){
+        while (moves_counter < 100){
+            for (int which_animal = 0; which_animal < animals.size() && moves_counter < 100; which_animal++, moves_counter++){
                 animals.get(which_animal).move();
                 this.map.updateMap();
                 System.out.println(this.map.toString());

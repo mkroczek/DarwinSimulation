@@ -11,15 +11,23 @@ import java.util.ArrayList;
 public class SimulationEngine implements IEngine {
 
     private IWorldMap map;
+    private WorldProperties worldProperties;
 
-    public SimulationEngine(IWorldMap map, Vector2d[] positions){
+    public SimulationEngine(WorldProperties worldProperties, IWorldMap map){
         this.map = map;
-        for (Vector2d position: positions){
-            IMapElement animal = new Animal(this.map, position, new Genes(8,32), 10);
-            map.place(animal);
+        this.worldProperties = worldProperties;
+        this.initSimulation();
+        System.out.println(this.map.toString());
+    }
+
+    public void initSimulation(){
+        int numberOfAnimals = this.worldProperties.getStartNumberOfAnimals();
+        System.out.println("Number of animals: "+numberOfAnimals);
+        int startEnergy = this.worldProperties.getStartEnergy();
+        for (int i = 0; i < numberOfAnimals; i++){
+            this.map.placeAnimalOnRandomPosition(startEnergy);
         }
         this.map.updateMap();
-        System.out.println(this.map.toString());
     }
 
     @Override

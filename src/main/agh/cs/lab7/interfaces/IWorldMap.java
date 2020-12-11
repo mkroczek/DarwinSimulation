@@ -44,13 +44,10 @@ public interface IWorldMap {
      */
     boolean isOccupied(Vector2d position);
 
-    /**
-     * Return an object at a given position.
-     *
-     * @param position
-     *            The position of the object.
-     * @return Object or null if the position is not occupied.
-     */
+    void placeAnimalOnRandomPosition(int startEnergy);
+
+    Vector2d getRandomFreePosition(IMapArea area, Vector2d leftBottom, Vector2d rightTop);
+
     ArrayList<Animal> animalsAt(Vector2d position);
 
     Object objectAt(Vector2d position);

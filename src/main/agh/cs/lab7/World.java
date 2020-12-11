@@ -5,14 +5,19 @@ import agh.cs.lab7.interfaces.IWorldMap;
 import agh.cs.lab7.world.SteppeJungleMap;
 
 public class World {
-    public static void main(String[] args) {
-        try {
-            IWorldMap map = new SteppeJungleMap(10, 10, 4, 4);
-            Vector2d[] positions = {new Vector2d(2, 8), new Vector2d(0, 4), new Vector2d(1,4), new Vector2d(0,3)};
-            IEngine engine = new SimulationEngine(map, positions);
-            engine.run();
-        }catch (IllegalArgumentException exception){
-            System.out.println(exception);
-        }
+
+    private WorldProperties properties;
+    private IWorldMap map;
+    private IEngine simulationEngine;
+
+    public World(String filepath){
+        this.properties = new WorldProperties(filepath);
+        this.map = new SteppeJungleMap(this, this.properties.getMapWidth(), this.properties.getMapHeight(), this.properties.getJungleWidth(), this.properties.getJungleHeight());
+        this.simulationEngine = new SimulationEngine(this.properties, this.map);
     }
+
+    public void startSimulation(){
+        this.simulationEngine.run();
+    }
+
 }

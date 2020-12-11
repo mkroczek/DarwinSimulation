@@ -1,16 +1,18 @@
 package agh.cs.lab7.world;
 
 import agh.cs.lab7.*;
-import agh.cs.lab7.interfaces.IMapArea;
-import agh.cs.lab7.interfaces.IMapElement;
-import agh.cs.lab7.interfaces.IMapElementObserver;
-import agh.cs.lab7.interfaces.IWorldMap;
+import agh.cs.lab7.interfaces.*;
 import agh.cs.lab7.mapElements.Animal;
+import agh.cs.lab7.mapElements.Genes;
+
 import java.util.*;
 
 abstract class AbstractWorldMap implements IWorldMap, IMapElementObserver {
     protected Map<Vector2d, AnimalStorage> animals = new LinkedHashMap<>();
     protected DirectionsParser parser = new DirectionsParser();
+    protected World world;
+    protected IMapArea map;
+    protected Random generator = new Random();
 
     protected void remove(Vector2d position, Animal animal){
         this.animals.get(position).remove(animal);
@@ -77,6 +79,31 @@ abstract class AbstractWorldMap implements IWorldMap, IMapElementObserver {
         MapVisualizer visualizer = new MapVisualizer(this);
         Vector2d[] bounds = countBounds();
         return visualizer.draw(bounds[0], new Vector2d(bounds[1].x, bounds[1].y));
+    }
+
+    public Vector2d getRandomFreePosition(IMapArea area, Vector2d leftBottom, Vector2d rightTop){
+        int xBound = rightTop.x-leftBottom.x+1;
+        int yBound = rightTop.y-leftBottom.y+1;
+        int searchingLimit = xBound*yBound+1;
+        int checked = 0;
+        Vector2d position = null;
+        for (checked = 0; checked < searchingLimit; checked++){
+            position = new Vector2d(this.generator.nextInt(xBound)+leftBottom.x, this.generator.nextInt(yBound)+ leftBottom.y);
+            if (!isOccupied(position) && area.includePosition(position)){
+                return position;
+            }
+        }
+        position = this.getFreePosition(area, leftBottom, rightTop);
+        return position;
+    }
+
+    public void placeAnimalOnRandomPosition(int startEnergy){
+        Vector2d position = this.getFreePosition(this.map, ((IRectangle)map).getLeftBottom(), ((IRectangle)map).getRightTop());
+        if (position != null)
+            this.place(new Animal(this, position, new Genes(8,32), startEnergy));
+        else
+            this.place(new Animal(this, new Vector2d(0,0), new Genes(8,32), startEnergy));
+
     }
 
     public Vector2d getFreePosition(IMapArea area, Vector2d from, Vector2d to){

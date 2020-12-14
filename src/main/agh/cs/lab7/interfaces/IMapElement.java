@@ -1,7 +1,6 @@
 package agh.cs.lab7.interfaces;
 
 import agh.cs.lab7.Vector2d;
-import agh.cs.lab7.mapElements.Energy;
 
 public interface IMapElement {
     /**
@@ -20,9 +19,9 @@ public interface IMapElement {
      *
      * @param observer
      */
-    void addObserver(IMapElementObserver observer);
+    void addObserver(Object observer);
 
-    void removeObserver(IMapElementObserver observer);
+    void removeObserver(Object observer);
 
     /**
      * Return object representation as String.

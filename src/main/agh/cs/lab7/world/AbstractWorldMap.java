@@ -7,7 +7,7 @@ import agh.cs.lab7.mapElements.Genes;
 
 import java.util.*;
 
-abstract class AbstractWorldMap implements IWorldMap, IMapElementObserver {
+abstract class AbstractWorldMap implements IWorldMap, IObjectDiedObserver, IPositionChangedObserver {
     protected Map<Vector2d, AnimalStorage> animals = new LinkedHashMap<>();
     protected DirectionsParser parser = new DirectionsParser();
     protected World world;
@@ -34,17 +34,19 @@ abstract class AbstractWorldMap implements IWorldMap, IMapElementObserver {
         this.add(newPosition, animal);
     }
 
-    public void objectDied(IMapElement object){
+    public void objectDied(IMapElement object, Vector2d position){
         if (object instanceof Animal) {
             Animal animal = (Animal) object;
-            this.remove(animal.getPosition(), animal);
+            this.remove(position, animal);
         }
     }
 
     public void place(IMapElement object)
     {
-        if (object instanceof Animal)
-            this.add(object.getPosition(), (Animal)object);
+        if (object instanceof Animal) {
+            this.add(object.getPosition(), (Animal) object);
+            System.out.println("Placing animal was successful");
+        }
     }
 
     public boolean isOccupied(Vector2d position){
@@ -60,8 +62,7 @@ abstract class AbstractWorldMap implements IWorldMap, IMapElementObserver {
             return null;
     }
 
-    public void updateMap(){
-    }
+    public abstract void spawnObjects(int energy);
 
     public Object objectAt(Vector2d position){
         ArrayList<Animal> foundAnimals = animalsAt(position);
@@ -81,7 +82,9 @@ abstract class AbstractWorldMap implements IWorldMap, IMapElementObserver {
         return visualizer.draw(bounds[0], new Vector2d(bounds[1].x, bounds[1].y));
     }
 
-    public Vector2d getRandomFreePosition(IMapArea area, Vector2d leftBottom, Vector2d rightTop){
+    public Vector2d getRandomFreePosition(IMapArea area, Vector2d from, Vector2d to){
+        Vector2d rightTop = ((IRectangle)area).getRightTop().lowerLeft(to);
+        Vector2d leftBottom = ((IRectangle)area).getLeftBottom().upperRight(from);
         int xBound = rightTop.x-leftBottom.x+1;
         int yBound = rightTop.y-leftBottom.y+1;
         int searchingLimit = xBound*yBound+1;
@@ -98,13 +101,21 @@ abstract class AbstractWorldMap implements IWorldMap, IMapElementObserver {
     }
 
     public void placeAnimalOnRandomPosition(int startEnergy){
-        Vector2d position = this.getFreePosition(this.map, ((IRectangle)map).getLeftBottom(), ((IRectangle)map).getRightTop());
+        Vector2d position = this.getRandomFreePosition(this.map, ((IRectangle)map).getLeftBottom(), ((IRectangle)map).getRightTop());
         if (position != null)
             this.place(new Animal(this, position, new Genes(8,32), startEnergy));
         else
             this.place(new Animal(this, new Vector2d(0,0), new Genes(8,32), startEnergy));
 
     }
+
+//    public Vector2d getRandomPosition(IMapArea area, Vector2d from, Vector2d to){
+//        Vector2d rightTop = ((IRectangle)area).getRightTop().lowerLeft(to);
+//        Vector2d leftBottom = ((IRectangle)area).getLeftBottom().upperRight(from);
+//        int xBound = rightTop.x-leftBottom.x+1;
+//        int yBound = rightTop.y-leftBottom.y+1;
+//        return new Vector2d(this.generator.nextInt(xBound)+leftBottom.x, this.generator.nextInt(yBound)+ leftBottom.y);
+//    }
 
     public Vector2d getFreePosition(IMapArea area, Vector2d from, Vector2d to){
         for (int x = from.x; x <= to.x; x++){
@@ -117,6 +128,20 @@ abstract class AbstractWorldMap implements IWorldMap, IMapElementObserver {
         return null;
     }
 
+    public ArrayList<Animal> getStrongestAnimals(Vector2d position){
+        return this.animals.get(position).getStrongestAnimals();
+    }
+
+    public ArrayList<Animal> getPotentialParents(Vector2d position){
+        return this.animals.get(position).getPotentialParents();
+    }
+
+    public Set<Vector2d> getAnimalsPositions(){
+        Set<Vector2d> actualSet = new HashSet<>();
+        actualSet.addAll(this.animals.keySet());
+        return actualSet;
+    }
+
     public ArrayList<Animal> getLivingAnimals(){
         ArrayList<Animal> livingAnimals = new ArrayList<Animal>();
         for (Vector2d position : this.animals.keySet())
@@ -124,6 +149,34 @@ abstract class AbstractWorldMap implements IWorldMap, IMapElementObserver {
         return livingAnimals;
     }
 
+    public int getNumberOfAnimals(){
+        return getLivingAnimals().size();
+    }
+
+    public int getDominantGen(){
+        int mostCommonGen = 0;
+        int[] genesOccurrences = new int[8];
+        Arrays.fill(genesOccurrences, 0);
+        for (Animal animal : this.getLivingAnimals()){
+            int animalGen = animal.getDominantGen();
+            genesOccurrences[animalGen]+=1;
+            if (genesOccurrences[animalGen] > genesOccurrences[mostCommonGen])
+                mostCommonGen = animalGen;
+        }
+        return mostCommonGen;
+    }
+
+    public int getAverageEnergy(){
+        int sum = 0;
+        ArrayList<Animal> animals = this.getLivingAnimals();
+        for (Animal animal : animals) {
+            sum += animal.getEnergy();
+        }
+        return sum/animals.size();
+    }
+
     public DirectionsParser getParser(){return this.parser;}
+
+    public IMapArea getMapArea(){return this.map;}
 
 }

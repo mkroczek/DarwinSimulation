@@ -6,6 +6,7 @@ import agh.cs.lab7.Vector2d;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * The interface responsible for interacting with the map of the world.
@@ -48,13 +49,21 @@ public interface IWorldMap {
 
     Vector2d getRandomFreePosition(IMapArea area, Vector2d leftBottom, Vector2d rightTop);
 
+    Set<Vector2d> getAnimalsPositions();
+
+    ArrayList<Animal> getStrongestAnimals(Vector2d position);
+
+    ArrayList<Animal> getPotentialParents(Vector2d position);
+
     ArrayList<Animal> animalsAt(Vector2d position);
 
     Object objectAt(Vector2d position);
 
     ArrayList<Animal> getLivingAnimals();
 
-    void updateMap();
+    void spawnObjects(int energy);
+
+    IMapArea getMapArea();
 
     DirectionsParser getParser();
 

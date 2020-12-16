@@ -1,8 +1,10 @@
 package agh.cs.lab7.interfaces;
 
+import agh.cs.lab7.World;
 import agh.cs.lab7.mapElements.Animal;
 import agh.cs.lab7.DirectionsParser;
 import agh.cs.lab7.Vector2d;
+import agh.cs.lab7.world.RectangularArea;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +49,7 @@ public interface IWorldMap {
 
     void placeAnimalOnRandomPosition(int startEnergy);
 
-    Vector2d getRandomFreePosition(IMapArea area, Vector2d leftBottom, Vector2d rightTop);
+    Vector2d getRandomFreePosition(RectangularArea mainArea, RectangularArea subArea);
 
     Set<Vector2d> getAnimalsPositions();
 
@@ -63,8 +65,22 @@ public interface IWorldMap {
 
     void spawnObjects(int energy);
 
-    IMapArea getMapArea();
+    RectangularArea getMapArea();
 
     DirectionsParser getParser();
+
+    World getWorld();
+
+    int getNumberOfAnimals();
+
+    int getNumberOfGrassFields();
+
+    int getDominantGen();
+
+    int getAverageEnergy();
+
+    int getAverageLengthOfLife();
+
+    int getNumberOfDeadAnimals();
 
 }

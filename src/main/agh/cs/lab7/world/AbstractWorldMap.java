@@ -189,9 +189,21 @@ abstract class AbstractWorldMap implements IWorldMap, IObjectDiedObserver, IPosi
             return -1;
     }
 
+    public int getAverageChildrenNumber(){
+        int livingAnimalsNumber = this.getLivingAnimals().size();
+        int sum = 0;
+        for (Animal animal : this.getLivingAnimals())
+            sum+=animal.getNumberOfChildren();
+        if (livingAnimalsNumber > 0)
+            return sum/livingAnimalsNumber;
+        else
+            return -1;
+    }
+
     public DirectionsParser getParser(){return this.parser;}
 
     public RectangularArea getMapArea(){return this.map;}
 
     public World getWorld(){return this.world;}
+
 }

@@ -30,7 +30,6 @@ public class SimulationEngine implements IEngine, ActionListener{
         this.worldProperties = this.world.getProperties();
         this.timer = new Timer(Constants.GAME_SPEED, this);
         this.addDayObserver((IDayChangeObserver) world);
-        this.initSimulation();
     }
 
     public void initSimulation(){
@@ -42,21 +41,6 @@ public class SimulationEngine implements IEngine, ActionListener{
         this.map.spawnObjects(this.worldProperties.getPlantEnergy());
         this.showMap();
         this.nextDay();
-    }
-
-    @Override
-    public void run(){
-        this.state = SimulationState.RUNNING;
-        this.timer.start();
-//        while (this.day < 100 && this.state == SimulationState.RUNNING){
-//            this.subtractMoveEnergy();
-//            this.moveAnimals();
-//            this.feedAnimals();
-//            this.multiplyAnimals();
-//            this.spawnObjects();
-//            this.showMap();
-//            this.day += 1;
-//        }
     }
 
     public void subtractMoveEnergy(){
@@ -108,7 +92,7 @@ public class SimulationEngine implements IEngine, ActionListener{
     }
 
     public void showMap(){
-        System.out.println("Map status at the end of the day "+this.world.getDay()+"\n" + "Number of living animals: "+this.map.getNumberOfAnimals()+"\n"+"Number of dead animals: "+this.map.getNumberOfDeadAnimals()+"\n"+this.map.toString());
+        System.out.println("Map status at the end of the day "+this.world.getDay()+"\n" + "Number of living animals: "+this.map.getNumberOfAnimals()+"\n"+"Number of dead animals: "+this.map.getNumberOfDeadAnimals()+"\n");
     }
 
     private void update(){
@@ -117,11 +101,12 @@ public class SimulationEngine implements IEngine, ActionListener{
         this.feedAnimals();
         this.multiplyAnimals();
         this.spawnObjects();
-        //this.showMap();
+        this.showMap();
         this.nextDay();
     }
 
     public void addDayObserver(IDayChangeObserver observer){
+        System.out.println("Observer has been added");
         this.observers.add(observer);
     }
 
@@ -135,8 +120,16 @@ public class SimulationEngine implements IEngine, ActionListener{
         }
     }
 
+    @Override
+    public void run(){
+        this.state = SimulationState.RUNNING;
+        this.timer.start();
+
+    }
+
     public void stop(){
         this.state = SimulationState.STOPPED;
+        this.timer.stop();
     }
 
     public IWorldMap getMap(){
@@ -145,7 +138,6 @@ public class SimulationEngine implements IEngine, ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("Update");
         this.update();
     }
 }

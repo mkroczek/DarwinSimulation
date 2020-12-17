@@ -1,16 +1,15 @@
 package agh.cs.lab7;
 
-import agh.cs.lab7.gui.GameMainFrame;
+import agh.cs.lab7.sumulationGUI.GameMainFrame;
 import agh.cs.lab7.interfaces.IDayChangeObserver;
-import agh.cs.lab7.interfaces.IEngine;
-import agh.cs.lab7.interfaces.IWorldMap;
 import agh.cs.lab7.world.SteppeJungleMap;
 
 import java.awt.*;
+import java.util.Map;
 
 public class World implements IDayChangeObserver {
 
-    private int day = 0;
+    private int day = -1;
     private WorldProperties properties;
     private SteppeJungleMap map;
     private SimulationEngine simulationEngine;
@@ -30,6 +29,8 @@ public class World implements IDayChangeObserver {
         this.simulationEngine.run();
     }
 
+    public void pauseSimulation(){this.simulationEngine.stop();}
+
     public void nextDay(){
         this.day ++;
         this.statistics.updateStatistics();
@@ -38,7 +39,7 @@ public class World implements IDayChangeObserver {
     public int getDay(){return this.day;}
 
     public SimulationEngine getSimulationEngine(){return this.simulationEngine;}
-    public Statistics getStatistics(){return  this.statistics;}
+    public Map<StatisticsNames, Integer> getStatistics(){return this.statistics.getStatistics();}
     public WorldProperties getProperties(){return this.properties;}
     public SteppeJungleMap getMap(){return this.map;}
 }

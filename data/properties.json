@@ -1,11 +1,12 @@
 {
-  "width": 10,
-  "height": 10,
-  "startEnergy": 20,
+  "width": 100,
+  "height": 100,
+  "startEnergy": 10,
   "moveEnergy": 1,
   "plantEnergy": 10,
-  "jungleHeight": 5,
-  "jungleWidth": 5,
-  "plantsPerDay": 2,
-  "startNumberOfAnimals": 20
+  "jungleHeight": 30,
+  "jungleWidth": 30,
+  "plantsPerDay": 20,
+  "startNumberOfAnimals": 200,
+  "startNumberOfGrass": 400
 }

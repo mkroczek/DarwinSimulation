@@ -63,7 +63,7 @@ public interface IWorldMap {
 
     ArrayList<Animal> getLivingAnimals();
 
-    void spawnObjects(int energy);
+    void spawnObjects(int energy, int amount);
 
     RectangularArea getMapArea();
 

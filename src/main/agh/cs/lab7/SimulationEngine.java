@@ -22,14 +22,15 @@ public class SimulationEngine implements IEngine, ActionListener{
     private World world;
     private SimulationState state = SimulationState.NOT_STARTED;
     private Timer timer;
-    private ArrayList<IDayChangeObserver> observers = new ArrayList<IDayChangeObserver>();
+    private ArrayList<IDayChangeObserver> observers = new ArrayList<>();
+    private ArrayList<IDayChangeObserver> observersToRemove = new ArrayList<>();
+    private int day = -1;
 
     public SimulationEngine(World world, IWorldMap map){
         this.map = map;
         this.world = world;
         this.worldProperties = this.world.getProperties();
         this.timer = new Timer(Constants.GAME_SPEED, this);
-        this.addDayObserver((IDayChangeObserver) world);
     }
 
     public void initSimulation(){
@@ -38,7 +39,7 @@ public class SimulationEngine implements IEngine, ActionListener{
         for (int i = 0; i < numberOfAnimals; i++){
             this.map.placeAnimalOnRandomPosition(startEnergy);
         }
-        this.map.spawnObjects(this.worldProperties.getPlantEnergy());
+        this.map.spawnObjects(this.worldProperties.getPlantEnergy(), this.worldProperties.getStartNumberOfGrass());
         this.showMap();
         this.nextDay();
     }
@@ -58,7 +59,7 @@ public class SimulationEngine implements IEngine, ActionListener{
     }
 
     public void spawnObjects(){
-        this.map.spawnObjects(this.worldProperties.getPlantEnergy());
+        this.map.spawnObjects(this.worldProperties.getPlantEnergy(), this.worldProperties.getPlantsPerDay());
     }
 
     public void feedAnimals(){
@@ -103,18 +104,28 @@ public class SimulationEngine implements IEngine, ActionListener{
         this.spawnObjects();
         this.showMap();
         this.nextDay();
+        cleanObservers();
     }
 
     public void addDayObserver(IDayChangeObserver observer){
-        System.out.println("Observer has been added");
         this.observers.add(observer);
     }
 
-    private void removeDayObserver(IDayChangeObserver observer){
-        this.observers.remove(observer);
+    public void removeDayObserver(IDayChangeObserver observer){
+        this.observersToRemove.add(observer);
     }
 
+    public void cleanObservers(){
+        for (IDayChangeObserver observer : this.observersToRemove)
+            this.observers.remove(observer);
+        observersToRemove.clear();
+    }
+
+    public int getDay(){return this.day;}
+
     private void nextDay(){
+        this.day +=1;
+        this.world.updateStatistics();
         for (IDayChangeObserver observer : this.observers){
             observer.nextDay();
         }
@@ -136,6 +147,9 @@ public class SimulationEngine implements IEngine, ActionListener{
         return this.map;
     }
 
+    public boolean isRunning(){
+        return (this.state == SimulationState.RUNNING);
+    }
     @Override
     public void actionPerformed(ActionEvent e) {
         this.update();

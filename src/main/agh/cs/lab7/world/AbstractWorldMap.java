@@ -63,7 +63,7 @@ abstract class AbstractWorldMap implements IWorldMap, IObjectDiedObserver, IPosi
             return null;
     }
 
-    public abstract void spawnObjects(int energy);
+    public abstract void spawnObjects(int energy, int amount);
 
     public Object objectAt(Vector2d position){
         ArrayList<Animal> foundAnimals = animalsAt(position);
@@ -134,6 +134,10 @@ abstract class AbstractWorldMap implements IWorldMap, IObjectDiedObserver, IPosi
         return this.animals.get(position).getPotentialParents();
     }
 
+    public Animal getAnimal(Vector2d position){
+        return this.animals.get(position).getStrongestAnimal();
+    }
+
     public Set<Vector2d> getAnimalsPositions(){
         Set<Vector2d> actualSet = new HashSet<>();
         actualSet.addAll(this.animals.keySet());
@@ -198,6 +202,16 @@ abstract class AbstractWorldMap implements IWorldMap, IObjectDiedObserver, IPosi
             return sum/livingAnimalsNumber;
         else
             return -1;
+    }
+
+    public ArrayList<Animal> getAnimalsWithDominantGen(){
+        int dominantGen = this.getDominantGen();
+        ArrayList<Animal> resultList = new ArrayList<>();
+        for (Animal animal:this.getLivingAnimals()){
+            if (animal.getDominantGen() == dominantGen)
+                resultList.add(animal);
+        }
+        return resultList;
     }
 
     public DirectionsParser getParser(){return this.parser;}

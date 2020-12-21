@@ -47,40 +47,4 @@ public interface IWorldMap {
      */
     boolean isOccupied(Vector2d position);
 
-    void placeAnimalOnRandomPosition(int startEnergy);
-
-    Vector2d getRandomFreePosition(RectangularArea mainArea, RectangularArea subArea);
-
-    Set<Vector2d> getAnimalsPositions();
-
-    ArrayList<Animal> getStrongestAnimals(Vector2d position);
-
-    ArrayList<Animal> getPotentialParents(Vector2d position);
-
-    ArrayList<Animal> animalsAt(Vector2d position);
-
-    Object objectAt(Vector2d position);
-
-    ArrayList<Animal> getLivingAnimals();
-
-    void spawnObjects(int energy, int amount);
-
-    RectangularArea getMapArea();
-
-    DirectionsParser getParser();
-
-    World getWorld();
-
-    int getNumberOfAnimals();
-
-    int getNumberOfGrassFields();
-
-    int getDominantGen();
-
-    int getAverageEnergy();
-
-    int getAverageLengthOfLife();
-
-    int getNumberOfDeadAnimals();
-
 }

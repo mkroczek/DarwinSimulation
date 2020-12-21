@@ -1,6 +1,7 @@
 package agh.cs.lab7;
 
 import agh.cs.lab7.interfaces.IWorldMap;
+import agh.cs.lab7.world.SteppeJungleMap;
 
 /**
  * The map visualizer converts the {@link IWorldMap} map into a string
@@ -12,13 +13,13 @@ public class MapVisualizer {
     private static final String EMPTY_CELL = " ";
     private static final String FRAME_SEGMENT = "-";
     private static final String CELL_SEGMENT = "|";
-    private IWorldMap map;
+    private SteppeJungleMap map;
 
     /**
      * Initializes the MapVisualizer with an instance of map to visualize.
      * @param map
      */
-    public MapVisualizer(IWorldMap map) {
+    public MapVisualizer(SteppeJungleMap map) {
         this.map = map;
     }
 

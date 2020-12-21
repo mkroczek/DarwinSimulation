@@ -13,7 +13,7 @@ public interface IMapElement {
     /**
      * Change object status into dead.
      */
-    //void die();
+    void die();
 
     /**
      *

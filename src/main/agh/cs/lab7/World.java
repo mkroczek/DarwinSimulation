@@ -1,7 +1,9 @@
 package agh.cs.lab7;
 
+import agh.cs.lab7.engine.SimulationEngine;
 import agh.cs.lab7.simulationGUI.GameMainFrame;
 import agh.cs.lab7.world.SteppeJungleMap;
+import agh.cs.lab7.world.WorldProperties;
 
 import java.awt.*;
 import java.util.Map;

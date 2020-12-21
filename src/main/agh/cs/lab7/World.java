@@ -9,15 +9,15 @@ import java.util.Map;
 public class World {
 
     private final int id;
-    private WorldProperties properties;
-    private SteppeJungleMap map;
-    private SimulationEngine simulationEngine;
-    private Statistics statistics;
+    private final WorldProperties properties;
+    private final SteppeJungleMap map;
+    private final SimulationEngine simulationEngine;
+    private final Statistics statistics;
 
-    public World(int id, String filepath){
+    public World(int id, String propertiesPath){
         this.id = id;
-        this.properties = new WorldProperties(filepath);
-        this.map = new SteppeJungleMap(this, this.properties.getMapWidth(), this.properties.getMapHeight(), this.properties.getJungleWidth(), this.properties.getJungleHeight(), this.properties.getPlantsPerDay());
+        this.properties = new WorldProperties(propertiesPath);
+        this.map = new SteppeJungleMap(this, this.properties.getMapWidth(), this.properties.getMapHeight(), this.properties.getJungleWidth(), this.properties.getJungleHeight());
         this.statistics = new Statistics(this, map);
         this.simulationEngine = new SimulationEngine(this, this.map);
         this.simulationEngine.addDayObserver(this.statistics);

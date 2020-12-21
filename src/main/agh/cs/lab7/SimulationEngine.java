@@ -2,10 +2,8 @@ package agh.cs.lab7;
 
 import agh.cs.lab7.interfaces.IDayChangeObserver;
 import agh.cs.lab7.interfaces.IEngine;
-import agh.cs.lab7.interfaces.IMapElement;
 import agh.cs.lab7.interfaces.IWorldMap;
 import agh.cs.lab7.mapElements.Animal;
-import agh.cs.lab7.mapElements.Genes;
 import agh.cs.lab7.mapElements.Grass;
 import agh.cs.lab7.world.SteppeJungleMap;
 
@@ -93,7 +91,7 @@ public class SimulationEngine implements IEngine, ActionListener{
     }
 
     public void showMap(){
-        System.out.println("Map status at the end of the day "+this.world.getDay()+"\n" + "Number of living animals: "+this.map.getNumberOfAnimals()+"\n"+"Number of dead animals: "+this.map.getNumberOfDeadAnimals()+"\n");
+        System.out.println("Map status at the end of the day "+this.world.getDay()+"\n" + "Number of living animals: "+this.map.getNumberOfAnimals()+"\n"+"Number of dead animals: "+this.map.getNumberOfDeadAnimals()+"\n"+this.map.toString());
     }
 
     private void update(){
